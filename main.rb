@@ -1,3 +1,3 @@
-require_relative 'lib/totp'
+# frozen_string_literal: true
 
-TOTP::HMAC.new('super-secret-key', 'message')
+require_relative 'lib/totp'
