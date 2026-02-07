@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/BlockLength
+
 require 'rspec'
 require 'openssl'
 
@@ -35,5 +37,15 @@ RSpec.describe TOTP::HMAC do
         expect(subject).to eq(control)
       end
     end
+
+    context 'with an empty string' do
+      let(:key) { '' }
+      it 'correctly pads an empty string and generates correct hash' do
+        control = OpenSSL::HMAC.hexdigest('SHA256', key, message)
+        expect(subject).to eq(control)
+      end
+    end
   end
 end
+
+# rubocop:enable Metrics/BlockLength
