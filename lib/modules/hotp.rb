@@ -23,7 +23,7 @@ module TOTP
         #                 ((raw_digest[offset + 1] & 0xff) << 16) |
         #                 ((raw_digest[offset + 2] & 0xff) << 8) |
         #                 raw_digest[(offset + 3) & 0xff]
-        binary_code = binary_string.unpack1('N*')
+        binary_code = binary_string.unpack1('N')
         # Remove the sign from the binary code
         binary_code & 0x7fffffff
       end

@@ -79,13 +79,13 @@ module TOTP
       # Block sized outer padding, consisting of repeated bytes value 0x5c (92
       # in decimal)
       def compute_outer_padding(block_size)
-        Array.new(block_size) { 92 }
+        Array.new(block_size) { 0x5c }
       end
 
       # Block sized inner padding, consisting of repeated bytes value 0x36 (54
       # in decimal)
       def compute_inner_padding(block_size)
-        Array.new(block_size) { 54 }
+        Array.new(block_size) { 0x36 }
       end
     end
   end

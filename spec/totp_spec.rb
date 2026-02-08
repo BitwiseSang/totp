@@ -21,31 +21,37 @@ RSpec.describe TOTP::Generator do
       it 'generates the correct code for T=59s' do
         # Counter 1
         allow(Time).to receive(:now).and_return(Time.at(59))
-        expect(subject.generate(secret, digest: Digest::SHA256.new)).to eq(461_192)
+        expect(subject.generate(secret, digits: 8, digest: Digest::SHA256.new)).to eq(46_119_246)
       end
 
       it 'generates the correct code for T=1111111109s' do
         # Counter 37037036
         allow(Time).to receive(:now).and_return(Time.at(1_111_111_109))
-        expect(subject.generate(secret, digest: Digest::SHA256.new)).to eq(680_847)
+        expect(subject.generate(secret, digits: 8, digest: Digest::SHA256.new)).to eq(68_084_774)
       end
 
       it 'generates the correct code for T=1111111111s' do
         # Counter 37037037
         allow(Time).to receive(:now).and_return(Time.at(1_111_111_111))
-        expect(subject.generate(secret, digest: Digest::SHA256.new)).to eq(670_626)
+        expect(subject.generate(secret, digits: 8, digest: Digest::SHA256.new)).to eq(67_062_674)
       end
 
       it 'generates the correct code for T=1234567890s' do
         # Counter 41152263
         allow(Time).to receive(:now).and_return(Time.at(1_234_567_890))
-        expect(subject.generate(secret, digest: Digest::SHA256.new)).to eq(918_194)
+        expect(subject.generate(secret, digits: 8, digest: Digest::SHA256.new)).to eq(91_819_424)
       end
 
       it 'generates the correct code for T=2000000000s' do
         # Counter 66666666
         allow(Time).to receive(:now).and_return(Time.at(2_000_000_000))
-        expect(subject.generate(secret, digest: Digest::SHA256.new)).to eq(906_988)
+        expect(subject.generate(secret, digits: 8, digest: Digest::SHA256.new)).to eq(90_698_825)
+      end
+
+      it 'generates the correct code for T=20000000000s' do
+        # Counter 66666666
+        allow(Time).to receive(:now).and_return(Time.at(20_000_000_000))
+        expect(subject.generate(secret, digits: 8, digest: Digest::SHA256.new)).to eq(77_737_706)
       end
     end
 
@@ -60,31 +66,37 @@ RSpec.describe TOTP::Generator do
       it 'generates the correct code for T=59s' do
         # Counter 1
         allow(Time).to receive(:now).and_return(Time.at(59))
-        expect(subject.generate(secret, digest: Digest::SHA1.new)).to eq(287_082)
+        expect(subject.generate(secret, digits: 8)).to eq(94_287_082)
       end
 
       it 'generates the correct code for T=1111111109s' do
         # Counter 37037036
         allow(Time).to receive(:now).and_return(Time.at(1_111_111_109))
-        expect(subject.generate(secret, digest: Digest::SHA1.new)).to eq(81_804)
+        expect(subject.generate(secret, digits: 8)).to eq(7_081_804)
       end
 
       it 'generates the correct code for T=1111111111s' do
         # Counter 37037037
         allow(Time).to receive(:now).and_return(Time.at(1_111_111_111))
-        expect(subject.generate(secret, digest: Digest::SHA1.new)).to eq(50_471)
+        expect(subject.generate(secret, digits: 8)).to eq(14_050_471)
       end
 
       it 'generates the correct code for T=1234567890s' do
         # Counter 41152263
         allow(Time).to receive(:now).and_return(Time.at(1_234_567_890))
-        expect(subject.generate(secret, digest: Digest::SHA1.new)).to eq(5_924)
+        expect(subject.generate(secret, digits: 8)).to eq(89_005_924)
       end
 
       it 'generates the correct code for T=2000000000s' do
-        # Counter 66666666
+        # Counter 69279037
         allow(Time).to receive(:now).and_return(Time.at(2_000_000_000))
-        expect(subject.generate(secret, digest: Digest::SHA1.new)).to eq(279_037)
+        expect(subject.generate(secret, digits: 8)).to eq(69_279_037)
+      end
+
+      it 'generates the correct code for T=20000000000s' do
+        # Counter 65353130
+        allow(Time).to receive(:now).and_return(Time.at(20_000_000_000))
+        expect(subject.generate(secret, digits: 8)).to eq(65_353_130)
       end
     end
   end
