@@ -9,7 +9,8 @@ module TOTP
         big_endian_counter = [counter].pack('Q>')
         raw_digest = TOTP::HMAC.raw_digest(secret_key, big_endian_counter, digest: digest)
         binary_code = truncate(raw_digest)
-        binary_code.modulo(10**digits)
+        otp = binary_code.modulo(10**digits)
+        otp.to_s.rjust(digits, '0')
       end
 
       private
