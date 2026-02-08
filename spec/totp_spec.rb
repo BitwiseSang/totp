@@ -21,37 +21,37 @@ RSpec.describe TOTP::Generator do
       it 'generates the correct code for T=59s' do
         # Counter 1
         allow(Time).to receive(:now).and_return(Time.at(59))
-        expect(subject.generate(secret, digits: 8, digest: Digest::SHA256.new)).to eq(46_119_246)
+        expect(subject.generate(secret, digits: 8, digest: Digest::SHA256.new)).to eq('46119246')
       end
 
       it 'generates the correct code for T=1111111109s' do
         # Counter 37037036
         allow(Time).to receive(:now).and_return(Time.at(1_111_111_109))
-        expect(subject.generate(secret, digits: 8, digest: Digest::SHA256.new)).to eq(68_084_774)
+        expect(subject.generate(secret, digits: 8, digest: Digest::SHA256.new)).to eq('68084774')
       end
 
       it 'generates the correct code for T=1111111111s' do
         # Counter 37037037
         allow(Time).to receive(:now).and_return(Time.at(1_111_111_111))
-        expect(subject.generate(secret, digits: 8, digest: Digest::SHA256.new)).to eq(67_062_674)
+        expect(subject.generate(secret, digits: 8, digest: Digest::SHA256.new)).to eq('67062674')
       end
 
       it 'generates the correct code for T=1234567890s' do
         # Counter 41152263
         allow(Time).to receive(:now).and_return(Time.at(1_234_567_890))
-        expect(subject.generate(secret, digits: 8, digest: Digest::SHA256.new)).to eq(91_819_424)
+        expect(subject.generate(secret, digits: 8, digest: Digest::SHA256.new)).to eq('91819424')
       end
 
       it 'generates the correct code for T=2000000000s' do
         # Counter 66666666
         allow(Time).to receive(:now).and_return(Time.at(2_000_000_000))
-        expect(subject.generate(secret, digits: 8, digest: Digest::SHA256.new)).to eq(90_698_825)
+        expect(subject.generate(secret, digits: 8, digest: Digest::SHA256.new)).to eq('90698825')
       end
 
       it 'generates the correct code for T=20000000000s' do
         # Counter 666666666
         allow(Time).to receive(:now).and_return(Time.at(20_000_000_000))
-        expect(subject.generate(secret, digits: 8, digest: Digest::SHA256.new)).to eq(77_737_706)
+        expect(subject.generate(secret, digits: 8, digest: Digest::SHA256.new)).to eq('77737706')
       end
     end
 
@@ -66,37 +66,37 @@ RSpec.describe TOTP::Generator do
       it 'generates the correct code for T=59s' do
         # Counter 1
         allow(Time).to receive(:now).and_return(Time.at(59))
-        expect(subject.generate(secret, digits: 8)).to eq(94_287_082)
+        expect(subject.generate(secret, digits: 8)).to eq('94287082')
       end
 
       it 'generates the correct code for T=1111111109s' do
         # Counter 37037036
         allow(Time).to receive(:now).and_return(Time.at(1_111_111_109))
-        expect(subject.generate(secret, digits: 8)).to eq(7_081_804)
+        expect(subject.generate(secret, digits: 8)).to eq('07081804')
       end
 
       it 'generates the correct code for T=1111111111s' do
         # Counter 37037037
         allow(Time).to receive(:now).and_return(Time.at(1_111_111_111))
-        expect(subject.generate(secret, digits: 8)).to eq(14_050_471)
+        expect(subject.generate(secret, digits: 8)).to eq('14050471')
       end
 
       it 'generates the correct code for T=1234567890s' do
         # Counter 41152263
         allow(Time).to receive(:now).and_return(Time.at(1_234_567_890))
-        expect(subject.generate(secret, digits: 8)).to eq(89_005_924)
+        expect(subject.generate(secret, digits: 8)).to eq('89005924')
       end
 
       it 'generates the correct code for T=2000000000s' do
         # Counter 66666666
         allow(Time).to receive(:now).and_return(Time.at(2_000_000_000))
-        expect(subject.generate(secret, digits: 8)).to eq(69_279_037)
+        expect(subject.generate(secret, digits: 8)).to eq('69279037')
       end
 
       it 'generates the correct code for T=20000000000s' do
         # Counter 666666666
         allow(Time).to receive(:now).and_return(Time.at(20_000_000_000))
-        expect(subject.generate(secret, digits: 8)).to eq(65_353_130)
+        expect(subject.generate(secret, digits: 8)).to eq('65353130')
       end
     end
   end
