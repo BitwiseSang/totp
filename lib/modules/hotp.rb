@@ -8,7 +8,8 @@ module TOTP
         # Convert counter to a 64-bit big-endian counter before hashing
         big_endian_counter = [counter].pack('Q>')
         raw_digest = TOTP::HMAC.raw_digest(secret_key, big_endian_counter)
-        truncate(raw_digest)
+        binary_code = truncate(raw_digest)
+        binary_code.modulo(10**HOTP_VALUE_LENGTH)
       end
 
       private
@@ -23,8 +24,8 @@ module TOTP
         #                 ((raw_digest[offset + 2] & 0xff) << 8) |
         #                 raw_digest[(offset + 3) & 0xff]
         binary_code = binary_string.unpack1('N*')
-        unsigned_binary_code = binary_code & 0x7fffffff
-        unsigned_binary_code.modulo(10**HOTP_VALUE_LENGTH)
+        # Remove the sign from the binary code
+        binary_code & 0x7fffffff
       end
     end
   end
