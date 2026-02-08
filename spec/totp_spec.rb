@@ -49,7 +49,7 @@ RSpec.describe TOTP::Generator do
       end
 
       it 'generates the correct code for T=20000000000s' do
-        # Counter 66666666
+        # Counter 666666666
         allow(Time).to receive(:now).and_return(Time.at(20_000_000_000))
         expect(subject.generate(secret, digits: 8, digest: Digest::SHA256.new)).to eq(77_737_706)
       end
@@ -88,13 +88,13 @@ RSpec.describe TOTP::Generator do
       end
 
       it 'generates the correct code for T=2000000000s' do
-        # Counter 69279037
+        # Counter 66666666
         allow(Time).to receive(:now).and_return(Time.at(2_000_000_000))
         expect(subject.generate(secret, digits: 8)).to eq(69_279_037)
       end
 
       it 'generates the correct code for T=20000000000s' do
-        # Counter 65353130
+        # Counter 666666666
         allow(Time).to receive(:now).and_return(Time.at(20_000_000_000))
         expect(subject.generate(secret, digits: 8)).to eq(65_353_130)
       end
