@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'digest'
+require 'openssl'
 
 module TOTP
   # Time-based one-time password class
@@ -12,22 +13,24 @@ module TOTP
       end
 
       def verified?(secret, code, interval: DEFAULT_INTERVAL, digest: DEFAULT_DIGEST, digits: DEFAULT_DIGITS)
-        counter = compute_counter(Time.now.to_s)
+        code = code.to_s.strip
+        counter = compute_counter(Time.now.to_i, interval)
 
-        (-drift..drift).any? do |_iteration|
-          generated_code = generate(secret, counter + 1, interval: interval, digest: digest, digits: digits)
-          secure_compare(generated_code, code.to_s)
+        (-drift..drift).any? do |i|
+          generated_code = generate(secret, counter + i, interval: interval, digest: digest, digits: digits)
+          secure_compare(generated_code, code)
         end
       end
 
       private
 
       def secure_compare(first_code, second_code)
-        return unless first_code.bytesize == second_code.bytesize
-
-        result = 0
-        first_code.bytes.zip(second_code.bytes) { |x, y| result |= (x ^ y) }
-        result.zero?
+        OpenSSL.fixed_length_secure_compare(first_code, second_code)
+        # return unless first_code.bytesize == second_code.bytesize
+        #
+        # result = 0
+        # first_code.bytes.zip(second_code.bytes) { |x, y| result |= (x ^ y) }
+        # result.zero?
       end
 
       def compute_counter(unix_time, interval)
