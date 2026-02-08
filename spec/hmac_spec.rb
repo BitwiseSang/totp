@@ -4,6 +4,7 @@
 
 require 'rspec'
 require 'openssl'
+require 'digest'
 
 require_relative '../lib/totp'
 
@@ -13,7 +14,7 @@ RSpec.describe TOTP::HMAC do
 
   let(:expected_signature) { OpenSSL::HMAC.hexdigest('SHA256', key, message) }
 
-  subject { described_class.hexdigest(key, message) }
+  subject { described_class.hexdigest(key, message, digest: Digest::SHA256.new) }
 
   describe 'code' do
     it 'generates the correct HMAC-SHA256 hex string' do

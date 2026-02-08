@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rspec'
+require 'digest'
 require_relative '../lib/totp'
 
 # rubocop:disable Metrics/BlockLength
@@ -19,27 +20,32 @@ RSpec.describe TOTP::Generator do
 
       it 'generates the correct code for T=59s' do
         # Counter 1
-        expect(subject.generate(secret, 59)).to eq(461_192)
+        allow(Time).to receive(:now).and_return(Time.at(59))
+        expect(subject.generate(secret, digest: Digest::SHA256.new)).to eq(461_192)
       end
 
       it 'generates the correct code for T=1111111109s' do
         # Counter 37037036
-        expect(subject.generate(secret, 1_111_111_109)).to eq(680_847)
+        allow(Time).to receive(:now).and_return(Time.at(1_111_111_109))
+        expect(subject.generate(secret, digest: Digest::SHA256.new)).to eq(680_847)
       end
 
       it 'generates the correct code for T=1111111111s' do
         # Counter 37037037
-        expect(subject.generate(secret, 1_111_111_111)).to eq(670_626)
+        allow(Time).to receive(:now).and_return(Time.at(1_111_111_111))
+        expect(subject.generate(secret, digest: Digest::SHA256.new)).to eq(670_626)
       end
 
       it 'generates the correct code for T=1234567890s' do
         # Counter 41152263
-        expect(subject.generate(secret, 1_234_567_890)).to eq(918_194)
+        allow(Time).to receive(:now).and_return(Time.at(1_234_567_890))
+        expect(subject.generate(secret, digest: Digest::SHA256.new)).to eq(918_194)
       end
 
       it 'generates the correct code for T=2000000000s' do
         # Counter 66666666
-        expect(subject.generate(secret, 2_000_000_000)).to eq(906_988)
+        allow(Time).to receive(:now).and_return(Time.at(2_000_000_000))
+        expect(subject.generate(secret, digest: Digest::SHA256.new)).to eq(906_988)
       end
     end
 
@@ -51,34 +57,34 @@ RSpec.describe TOTP::Generator do
     context 'when using legacy SHA-1' do
       let(:secret) { '12345678901234567890' }
 
-      before do
-        # Force the library to use SHA1 for this block
-        stub_const('TOTP::HASH_FUNCTION', Digest::SHA1.method(:digest))
-      end
-
       it 'generates the correct code for T=59s' do
         # Counter 1
-        expect(subject.generate(secret, 59)).to eq(287_082)
+        allow(Time).to receive(:now).and_return(Time.at(59))
+        expect(subject.generate(secret, digest: Digest::SHA1.new)).to eq(287_082)
       end
 
       it 'generates the correct code for T=1111111109s' do
         # Counter 37037036
-        expect(subject.generate(secret, 1_111_111_109)).to eq(81_804) # NOTE: 081804 without leading zero
+        allow(Time).to receive(:now).and_return(Time.at(1_111_111_109))
+        expect(subject.generate(secret, digest: Digest::SHA1.new)).to eq(81_804)
       end
 
       it 'generates the correct code for T=1111111111s' do
         # Counter 37037037
-        expect(subject.generate(secret, 1_111_111_111)).to eq(50_471) # NOTE: 050471 without leading zero
+        allow(Time).to receive(:now).and_return(Time.at(1_111_111_111))
+        expect(subject.generate(secret, digest: Digest::SHA1.new)).to eq(50_471)
       end
 
       it 'generates the correct code for T=1234567890s' do
         # Counter 41152263
-        expect(subject.generate(secret, 1_234_567_890)).to eq(5_924) # NOTE: 005924 without leading zeros
+        allow(Time).to receive(:now).and_return(Time.at(1_234_567_890))
+        expect(subject.generate(secret, digest: Digest::SHA1.new)).to eq(5_924)
       end
 
       it 'generates the correct code for T=2000000000s' do
         # Counter 66666666
-        expect(subject.generate(secret, 2_000_000_000)).to eq(279_037)
+        allow(Time).to receive(:now).and_return(Time.at(2_000_000_000))
+        expect(subject.generate(secret, digest: Digest::SHA1.new)).to eq(279_037)
       end
     end
   end
