@@ -4,12 +4,12 @@ module TOTP
   # HMAC-Based One-Time Password class which extends the HMAC class `./hmac.rb`
   class HOTP
     class << self
-      def generate(secret_key, counter: 0)
+      def generate(secret_key, counter: 0, digest: Digest::SHA1.new, digits: 6)
         # Convert counter to a 64-bit big-endian counter before hashing
         big_endian_counter = [counter].pack('Q>')
-        raw_digest = TOTP::HMAC.raw_digest(secret_key, big_endian_counter)
+        raw_digest = TOTP::HMAC.raw_digest(secret_key, big_endian_counter, digest: digest)
         binary_code = truncate(raw_digest)
-        binary_code.modulo(10**HOTP_VALUE_LENGTH)
+        binary_code.modulo(10**digits)
       end
 
       private

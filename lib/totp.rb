@@ -6,8 +6,7 @@ require_relative 'modules/hotp'
 require_relative 'modules/totp'
 
 module TOTP
-  BLOCK_SIZE = 64
-  HASH_FUNCTION = Digest::SHA256.method(:digest)
-  HOTP_VALUE_LENGTH = 6
-  TX = 30
+  DEFAULT_DIGEST = Digest::SHA1.new
+  DEFAULT_DIGITS = 6
+  DEFAULT_INTERVAL = 30
 end

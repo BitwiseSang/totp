@@ -1,18 +1,20 @@
 # frozen_string_literal: true
 
+require 'digest'
+
 module TOTP
   # Time-based one-time password class
   class Generator
     class << self
-      def generate(secret, unix_time)
-        counter = computer_counter(unix_time)
-        TOTP::HOTP.generate(secret, counter: counter)
+      def generate(secret, interval: DEFAULT_INTERVAL, digest: DEFAULT_DIGEST, digits: DEFAULT_DIGITS)
+        counter = computer_counter(Time.now.to_i, interval)
+        TOTP::HOTP.generate(secret, counter: counter, digest: digest, digits: digits)
       end
 
       private
 
-      def computer_counter(unix_time)
-        (unix_time - 0) / TX
+      def computer_counter(unix_time, interval)
+        ((unix_time - 0) / interval).floor
       end
     end
   end
