@@ -14,9 +14,17 @@ module TOTP
       private
 
       def truncate(raw_digest)
-        offset = [raw_digest[-1]].pack('C*').unpack1('h').to_i(16)
-        binary = raw_digest[offset, 4].pack('C*').unpack1('N*') & 0x7fffffff
-        binary.modulo(10**HOTP_VALUE_LENGTH)
+        offset = raw_digest.last & 0xf
+        binary_string = raw_digest[offset, 4].pack('C*')
+        #
+        # NOTE: Longer but descriptive way of doing the above operation
+        # binary_string = ((raw_digest[offset] & 0x7f) << 24) |
+        #                 ((raw_digest[offset + 1] & 0xff) << 16) |
+        #                 ((raw_digest[offset + 2] & 0xff) << 8) |
+        #                 raw_digest[(offset + 3) & 0xff]
+        binary_code = binary_string.unpack1('N*')
+        unsigned_binary_code = binary_code & 0x7fffffff
+        unsigned_binary_code.modulo(10**HOTP_VALUE_LENGTH)
       end
     end
   end
