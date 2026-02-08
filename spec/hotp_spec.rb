@@ -7,6 +7,12 @@ RSpec.describe TOTP::HOTP do
 
   subject { described_class.method(:generate) }
   describe '#generate' do
+    before do
+      # Swapping HASH_FUNCTION for SHA1 instead of SHA256
+      stub_const('TOTP::HASH_FUNCTION', Digest::SHA1.method(:digest))
+      # If you test SHA512 later, you'd stub BLOCK_SIZE to 128.
+    end
+
     # This test utilizes the test values provided in RFC4226 page 32
     it 'it generates the correct code for counter' do
       expect(subject.call(secret, counter: 0)).to eq(755_224)
