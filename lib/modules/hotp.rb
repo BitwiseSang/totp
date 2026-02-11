@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'digest'
+
 module TOTP
   # HMAC-Based One-Time Password class which extends the HMAC class `./hmac.rb`
   class HOTP

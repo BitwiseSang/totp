@@ -26,7 +26,7 @@ module TOTP
 
       def secure_compare(first_code, second_code)
         OpenSSL.fixed_length_secure_compare(first_code, second_code)
-        # return unless first_code.bytesize == second_code.bytesize
+        # return false unless first_code.bytesize == second_code.bytesize
         #
         # result = 0
         # first_code.bytes.zip(second_code.bytes) { |x, y| result |= (x ^ y) }
