@@ -21,7 +21,7 @@ module SERVER
             }
 
             h1 {
-            font-family: "DM Sans", sans-serif;
+              font-family: "DM Sans", sans-serif;
             }
 
             body {
@@ -31,6 +31,7 @@ module SERVER
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            gap: 1rem;
             }
             </style>
           </head>
@@ -54,7 +55,7 @@ module SERVER
         HTML
       end
 
-      def generate_valid
+      def generate_valid(user_code)
         <<-HTML
         <body style="text-align: center; margin-top: 100px; font-family: sans-serif;">
         <h1 style='color: #2ecc71; font-size: 50px;'>SUCCESS!</h1>
@@ -64,7 +65,7 @@ module SERVER
         HTML
       end
 
-      def generate_invalid
+      def generate_invalid(user_code)
         <<-HTML
         <body style="text-align: center; margin-top: 100px; font-family: sans-serif;">
         <h1 style='color: #e74c3c; font-size: 50px;'>FAILED</h1>
