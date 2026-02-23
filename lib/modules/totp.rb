@@ -7,17 +7,18 @@ module TOTP
   # Time-based one-time password class
   class Generator
     class << self
-      def generate(secret, interval: DEFAULT_INTERVAL, digest: DEFAULT_DIGEST, digits: DEFAULT_DIGITS)
-        counter = compute_counter(Time.now.to_i, interval)
+      def generate(secret, counter: nil, interval: DEFAULT_INTERVAL, digest: DEFAULT_DIGEST, digits: DEFAULT_DIGITS)
+        counter ||= compute_counter(Time.now.to_i, interval)
         TOTP::HOTP.generate(secret, counter: counter, digest: digest, digits: digits)
       end
 
       def verified?(secret, code, interval: DEFAULT_INTERVAL, digest: DEFAULT_DIGEST, digits: DEFAULT_DIGITS)
         code = code.to_s.strip
         counter = compute_counter(Time.now.to_i, interval)
+        drift = DEFAULT_DRIFT
 
         (-drift..drift).any? do |i|
-          generated_code = generate(secret, counter + i, interval: interval, digest: digest, digits: digits)
+          generated_code = generate(secret, counter: counter + i, interval: interval, digest: digest, digits: digits)
           secure_compare(generated_code, code)
         end
       end
@@ -25,7 +26,10 @@ module TOTP
       private
 
       def secure_compare(first_code, second_code)
+        return false unless first_code.bytesize == second_code.bytesize
+
         OpenSSL.fixed_length_secure_compare(first_code, second_code)
+
         # return false unless first_code.bytesize == second_code.bytesize
         #
         # result = 0
