@@ -1,6 +1,6 @@
 # 🛡️ Pure Ruby TOTP Authenticator
 
-[![homepage](./docs/images/homepage.png)](docs/demo.mp4)
+![homepage](./docs/images/homepage.png)
 
 A fully hand-rolled, zero-dependency (for the core library) Time-Based One-Time
 Password (TOTP) and HMAC-Based One-Time Password (HOTP) implementation in pure
@@ -11,6 +11,10 @@ bitwise operations, cryptographic hashing, and protocol specifications defined
 in **RFC 2104** (HMAC), **RFC 4226** (HOTP) and **RFC 6238** (TOTP). It includes
 a lightweight `WEBrick` web server to demonstrate real-time integration with the
 Google Authenticator app.
+
+🎥 **Watch the Demo Video:**
+
+https://github.com/user-attachments/assets/d1f44fac-59a7-4d08-8a84-9733cd971f41
 
 ## ✨ Features
 
