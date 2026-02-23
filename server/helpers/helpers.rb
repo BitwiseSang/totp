@@ -2,6 +2,7 @@
 
 require_relative 'uri_string'
 require_relative 'qrcode'
+require_relative 'html'
 
 module SERVER
   # URI generation constants
