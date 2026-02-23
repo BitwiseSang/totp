@@ -11,3 +11,5 @@ gem 'rspec', '~> 3.13'
 gem 'pry-byebug', '~> 3.12'
 
 gem 'rqrcode', '~> 3.2'
+
+gem "webrick", "~> 1.9"
