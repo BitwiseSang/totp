@@ -29,9 +29,9 @@ module SERVER
         --font-display: 'Syne', sans-serif;
       }
 
-      html, body {
-        height: 100%;
-      }
+      # html, body {
+      #   height: 100%;
+      # }
 
       body {
         background-color: var(--bg);
@@ -185,8 +185,6 @@ module SERVER
 
             .qr-wrapper svg {
               display: block;
-              max-width: 180px;
-              height: auto;
             }
 
             .divider {
