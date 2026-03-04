@@ -43,8 +43,8 @@ https://github.com/user-attachments/assets/d1f44fac-59a7-4d08-8a84-9733cd971f41
 Clone the repository and install the UI dependencies:
 
 ```bash
-git clone https://github.com/yourusername/ruby-totp-authenticator.git
-cd ruby-totp-authenticator
+git clone https://github.com/BitwiseSang/totp.git
+cd totp
 bundle install
 
 ```
